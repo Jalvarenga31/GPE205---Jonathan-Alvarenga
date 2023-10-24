@@ -4,16 +4,30 @@ using UnityEngine;
 
 public class TankPawn : Pawn
 {
-    // Start is called before the first frame update
+    private float nextEventTime;
+    private float timerDelay;
+
     public override void Start()
     {
+        float secondsPerShot;
+        if(fireRate <= 0)
+        {
+            secondsPerShot = Mathf.Infinity;
+        }
+        else
+        {
+            secondsPerShot = 1 / fireRate;
+        }
+        timerDelay = secondsPerShot;
+        nextEventTime = Time.time + timerDelay;
+        base.Start();
         base.Start();
     }
 
     // Update is called once per frame
     public override void Update()
     {
-        base.Start();
+        
     }
 
     public override void MoveForward()
@@ -34,5 +48,38 @@ public class TankPawn : Pawn
     public override void RotateCounterClockwise()
     {
         mover.Rotate(-turnSpeed);
+    }
+
+    public override void Shoot()
+    {
+        if(Time.time >= nextEventTime)
+        {
+            shooter.Shoot(shellPrefab, fireForce, damageDone, shellLifespan);
+            nextEventTime = Time.time + timerDelay;
+        }
+        
+    }
+
+   public override void RotateTowards(Vector3 targetPosition)
+    {
+        Vector3 vectorToTarget = targetPosition - transform.position;       
+        Quaternion targetRotation = Quaternion.LookRotation(vectorToTarget, Vector3.up);       
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, turnSpeed * Time.deltaTime);
+    }
+    
+    public override void MakeNoise()
+    {
+        if (noiseMaker != null)
+        {
+            noiseMaker.volumeDistance = noiseMakerVolume;
+        }
+    }
+
+    public override void StopNoise()
+    {
+        if(noiseMaker != null)
+        {
+            noiseMaker.volumeDistance = 0;  
+        }
     }
 }

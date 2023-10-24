@@ -8,12 +8,12 @@ public class GameManager : MonoBehaviour
 
     public Transform playerSpawnTransform;
 
-    public GameObject PlayerControllerPrefab;
-    public GameObject TankPawnPrefab;
+    public GameObject playerControllerPrefab;
+    public GameObject tankPawnPrefab;
 
     public List<PlayerController> players;
     
-    private void start()
+    private void Start()
     {
         SpawnPlayer();
     }
@@ -35,10 +35,19 @@ public class GameManager : MonoBehaviour
 
     public void SpawnPlayer()
     {
-        GameObject newPlayerObj = Instantiate(PlayerControllerPrefab, Vector3.zero, Quaternion.identity) as GameObject;
-        GameObject newPawnObj = Instantiate(TankPawnPrefab, playerSpawnTransform.position, playerSpawnTransform.rotation) as GameObject;
+        // Spawn the Player Controller at (0,0,0) with no rotation
+        GameObject newPlayerObj = Instantiate(playerControllerPrefab, Vector3.zero, Quaternion.identity) as GameObject;
+
+        // Spawn the Pawn and connect it to the Controller
+        GameObject newPawnObj = Instantiate(tankPawnPrefab, playerSpawnTransform.position, playerSpawnTransform.rotation) as GameObject;
+
+        // Get the Player Controller component and Pawn component. 
         Controller newController = newPlayerObj.GetComponent<Controller>();
         Pawn newPawn = newPawnObj.GetComponent<Pawn>();
+
+        newPawnObj.AddComponent<NoiseMaker>();
+        newPawn.noiseMaker = newPawnObj.GetComponent<NoiseMaker>();
+        newPawn.noiseMakerVolume = 3;
         newController.pawn = newPawn;
     }
 }

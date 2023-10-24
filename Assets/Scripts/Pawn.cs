@@ -7,12 +7,22 @@ public abstract class Pawn : MonoBehaviour
     public float moveSpeed;
     public float turnSpeed;
     public float fireRate;
+    public GameObject shellPrefab;
+    public float fireForce;
+    public float damageDone;
+    public float shellLifespan;
     public Mover mover;
+    public Shooter shooter;
+    public NoiseMaker noiseMaker;
+    public float noiseMakerVolume;
+
 
     // Start is called before the first frame update
     public virtual void Start()
     {
         mover = GetComponent<Mover>();
+        shooter = GetComponent<Shooter>();
+        noiseMaker = GetComponent<NoiseMaker>();
     }
 
     // Update is called once per frame
@@ -21,7 +31,18 @@ public abstract class Pawn : MonoBehaviour
     }
 
     public abstract void MoveForward();
+
     public abstract void MoveBackward();
+
     public abstract void RotateClockwise();
+
     public abstract void RotateCounterClockwise();
+
+    public abstract void Shoot();
+
+    public abstract void RotateTowards(Vector3 targetPosition);
+
+    public abstract void MakeNoise();
+
+    public abstract void StopNoise();
 }
