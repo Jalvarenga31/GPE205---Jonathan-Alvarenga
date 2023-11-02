@@ -30,6 +30,11 @@ public abstract class Pawn : MonoBehaviour
     {
     }
 
+    public void Speeds(float amount, Pawn source)
+    {
+        moveSpeed += amount;
+    }
+
     public abstract void MoveForward();
 
     public abstract void MoveBackward();

@@ -7,15 +7,22 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
 
     public Transform playerSpawnTransform;
-
+    public Transform enemySpawnTransform;
+    public Transform powerUpSpawnTransform;
+    public Transform enemySpawn2Transform;
     public GameObject playerControllerPrefab;
     public GameObject tankPawnPrefab;
+    public GameObject tankEnemyPrefab;
+    public GameObject tankEnemy2Prefab;
+    public GameObject powerUpPrefab;
 
     public List<PlayerController> players;
     
+    
     private void Start()
     {
-        SpawnPlayer();
+        //SpawnPlayer();
+        //SpawnEnemyAI();
     }
 
     private void Awake()
@@ -29,8 +36,6 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
-        
     }
 
     public void SpawnPlayer()
@@ -49,5 +54,19 @@ public class GameManager : MonoBehaviour
         newPawn.noiseMaker = newPawnObj.GetComponent<NoiseMaker>();
         newPawn.noiseMakerVolume = 3;
         newController.pawn = newPawn;
+
+        newPawnObj.AddComponent<PowerupManager>();
     }
+
+    public void SpawnEnemyAI()
+    {
+        GameObject newEnemy1Obj = Instantiate(tankEnemyPrefab, enemySpawnTransform.position, enemySpawnTransform.rotation) as GameObject;
+        GameObject newEnemy2Obj = Instantiate(tankEnemy2Prefab, enemySpawn2Transform.position, enemySpawn2Transform.rotation) as GameObject;
+    }
+
+    public void SpawnPowerup()
+    {
+        GameObject newPowerupObj = Instantiate(powerUpPrefab, powerUpSpawnTransform.position, powerUpSpawnTransform.rotation) as GameObject;
+    }
+
 }

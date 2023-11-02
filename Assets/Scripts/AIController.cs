@@ -39,7 +39,7 @@ public class AIController : Controller
                 DoGuardState();
                 IsCanSee(target);
                 IsCanHear(target);
-                if (IsDistanceLessThan(target, 10))
+                if (IsDistanceLessThan(target, 7))
                 {
                     ChangeState(AIState.Chase);
                 }
@@ -55,11 +55,11 @@ public class AIController : Controller
                     TargetPlayerOne();
                 }
                        
-                if (IsDistanceLessThan(target, 7))
+                if (IsDistanceLessThan(target, 5))
                 {
                     ChangeState(AIState.Attack);
                 }
-                if (!IsDistanceLessThan(target, 10))
+                if (!IsDistanceLessThan(target, 7))
                 {
                     ChangeState(AIState.Gaurd);
                 }
@@ -68,7 +68,7 @@ public class AIController : Controller
             case AIState.Attack:
                 {
                     DoAttackState();
-                    if (!IsDistanceLessThan(target, 7))
+                    if (!IsDistanceLessThan(target, 5))
                     {
                         ChangeState(AIState.Chase);
                     }
@@ -78,6 +78,12 @@ public class AIController : Controller
             case AIState.Patrol:
                 {
                     DoPatrolState();
+                    
+                    if (IsDistanceLessThan(target, 7))
+                    {
+                        ChangeState(AIState.Chase);
+                    }
+
                 }
                 break;
         }
